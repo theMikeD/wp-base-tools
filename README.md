@@ -16,27 +16,27 @@ This is a system to create a git-ified WordPress installation. The end result is
      ├── README.md
      ├── git-update-wp.sh (1)
      ├── index.php
-     ├── wordpress (2)
-     │   ├── wp-admin
+     ├── wordpress/ (2)
+     │   ├── wp-admin/
      │   │   └── ...
-     │   ├── wp-content (3)
+     │   ├── wp-content/ (3)
      │   │   └── ...
-     │   └── wp-includes
+     │   └── wp-includes/
      │       └── ...
      ├── wp-config-local.php (4)
      ├── wp-config.php (5)
-     └── wp-content (6)
+     └── wp-content/ (6)
          ├── index.php
-         ├── mu-plugins (7)
+         ├── mu-plugins/ (7)
          │   ├── miked-site-core-functionality
          │   └── miked-site-core-functionality-loader.php
-         ├── plugins (8)
+         ├── plugins/ (8)
          │   └── ...
-         └── themes (9)
-             ├── genesis
+         └── themes/ (9)
+             ├── genesis/
              ├── index.php
-             ├── starter
-             └── twentyfourteen
+             ├── starter/
+             └── twentyfourteen/
              
 
 (1) This us a helper to update the WordPress submodule. View the source to see what it does, it's pretty straightforward.
