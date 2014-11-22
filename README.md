@@ -37,7 +37,7 @@ This is a system to create a git-ified WordPress installation. The end result is
              ├── index.php
              ├── starter
              └── twentyfourteen
-```
+             
 
 (1) This us a helper to update the WordPress submodule. View the source to see what it does, it's pretty straightforward.
 
