@@ -61,10 +61,10 @@ This is a system to create a git-ified WordPress installation. The end result is
 ---
 sources:
 
-[1](http://blog.g-design.net/post/60019471157/managing-and-deploying-wordpress-with-git)
+[Managing and Deploying WordPress with git](http://blog.g-design.net/post/60019471157/managing-and-deploying-wordpress-with-git)
 
-[2](http://markjaquith.wordpress.com/2011/06/24/wordpress-local-dev-tips/)
+[WordPress local dev tips](http://markjaquith.wordpress.com/2011/06/24/wordpress-local-dev-tips/)
 
-[3](http://stevegrunwell.com/blog/keeping-wordpress-under-version-control-with-git/)
+[Keeping WordPress Under [Version] Control with Git](http://stevegrunwell.com/blog/keeping-wordpress-under-version-control-with-git/)
 
-[4](http://roybarber.com/version-controlling-wordpress/)
+[Version Controlling WordPress](http://roybarber.com/version-controlling-wordpress/)
