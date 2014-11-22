@@ -1,0 +1,40 @@
+# protect the .git folder and files
+RewriteCond %{REQUEST_URI} .*/\.git.*$
+RewriteRule ^(.*)\.git.*$ $1 [R=301,L]
+
+# protect the wp-config.php file
+# src http://codex.wordpress.org/Hardening_WordPress
+<files wp-config.php>
+order allow,deny
+deny from all
+</files>
+
+# protect the wp-config-*.php files
+<FilesMatch "^wp-config-(live|staging|local)\.php$">
+order allow,deny
+deny from all
+</FilesMatch>
+
+# protect the .htaccess file itself:
+<Files .htaccess>
+order deny,allow
+deny from all
+</Files>
+
+# protect the readme file:
+<Files README.md>
+order deny,allow
+deny from all
+</Files>
+
+# protect the WP update script:
+<Files git-update-wp.sh>
+order deny,allow
+deny from all
+</Files>
+
+# protect the WP readme file:
+<Files wordpress/readme.html>
+order deny,allow
+deny from all
+</Files>
