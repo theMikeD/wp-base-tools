@@ -1,16 +1,15 @@
 # STOP
 # This is a non-standard Wordpress Installation
 This installation is under revision control: the WordPress-related files are under git management, with the following notes: 
-	- WordPress itself is a submodule (see Note (2));
-	- the WordPress database credentials;
-	- anything in the root folder that is not related to this install;
-	- anything in wp-content that is not 
-		- themes/ 
-		- plugins/ 
-		- me-plugins/
-	- auto updates, plugin installation and updates and the theme editor are all disabled.
+- WordPress itself is a submodule (see Note (2));
+- the WordPress database credentials;
+- anything in the root folder that is not related to this install;
+- anything in wp-content that is not 
+  - themes/ 
+  - plugins/ 
+  - me-plugins/
 
-## Where to find stuff
+## Diagram of resulting install
     SITE
      ├── .git
      │   └── ...
@@ -18,28 +17,28 @@ This installation is under revision control: the WordPress-related files are und
      ├── README.md
      ├── git-update-wp.sh (1)
      ├── index.php
-     ├── wordpress (2)
-     │   ├── wp-admin
+     ├── wordpress/ (2)
+     │   ├── wp-admin/
      │   │   └── ...
-     │   ├── wp-content (3)
+     │   ├── wp-content/ (3)
      │   │   └── ...
-     │   └── wp-includes
+     │   └── wp-includes/
      │       └── ...
      ├── wp-config-local.php (4)
      ├── wp-config.php (5)
-     └── wp-content (6)
+     └── wp-content/ (6)
          ├── index.php
-         ├── mu-plugins (7)
+         ├── mu-plugins/ (7)
          │   ├── miked-site-core-functionality
          │   └── miked-site-core-functionality-loader.php
-         ├── plugins (8)
+         ├── plugins/ (8)
          │   └── ...
-         └── themes (9)
-             ├── genesis
+         └── themes/ (9)
+             ├── genesis/
              ├── index.php
-             ├── starter
-             └── twentyfourteen
-```
+             ├── starter/
+             └── twentyfourteen/
+             
 
 (1) This us a helper to update the WordPress submodule. View the source to see what it does, it's pretty straightforward.
 
@@ -63,10 +62,10 @@ This installation is under revision control: the WordPress-related files are und
 ---
 sources:
 
-[1](http://blog.g-design.net/post/60019471157/managing-and-deploying-wordpress-with-git)
+[Managing and Deploying WordPress with git](http://blog.g-design.net/post/60019471157/managing-and-deploying-wordpress-with-git)
 
-[2](http://markjaquith.wordpress.com/2011/06/24/wordpress-local-dev-tips/)
+[WordPress local dev tips](http://markjaquith.wordpress.com/2011/06/24/wordpress-local-dev-tips/)
 
-[3](http://stevegrunwell.com/blog/keeping-wordpress-under-version-control-with-git/)
+[Keeping WordPress Under [Version] Control with Git](http://stevegrunwell.com/blog/keeping-wordpress-under-version-control-with-git/)
 
-[4](http://roybarber.com/version-controlling-wordpress/)
+[Version Controlling WordPress](http://roybarber.com/version-controlling-wordpress/)
