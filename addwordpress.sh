@@ -43,7 +43,7 @@ WP_TAG=$(sed -n '3p' ver)
 rm ver
 
 # This is the list of plugins to install when the -p option is used
-plugins=( "theme-check" "wp-security-audit-log" "genesis-taxonomy-images" "advanced-custom-fields" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
+plugins=( "bwp-minify" "theme-check" "wp-security-audit-log" "genesis-taxonomy-images" "advanced-custom-fields" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
 
 # This is the list of public plugins to install when the -d option is used
 dev_plugins=( "underconstruction" "wordpress-importer" );
@@ -204,6 +204,7 @@ rm -rf wp-content/themes/twentyten || exit 1
 rm -rf wp-content/themes/twentyeleven || exit 1
 rm -rf wp-content/themes/twentytwelve || exit 1
 rm -rf wp-content/themes/twentythirteen || exit 1
+rm -rf wp-content/themes/twentyfourteen || exit 1
 git add . --all
 git commit -m "Cleaned out obsolete themes and plugins from wp-content/" > /dev/null
 $ECHO "done.";
@@ -258,10 +259,10 @@ if [ $ADD_CORE_PLUGIN -eq '1' ]; then
 	mkdir -p wp-content/mu-plugins || exit 1
 	cd wp-content/mu-plugins || exit 1
 	git clone git@personal:themiked/plugin-site-core-functionality.git _TMP > /dev/null
-	mv _TMP/miked-site-core-functionality . || exit 1
+	mv _TMP/site-core-functionality . || exit 1
 	rm -rf _TMP > /dev/null
-	mv miked-site-core-functionality/miked-site-core-functionality-loader.php.ignore miked-site-core-functionality-loader.php || exit 1
-	git add miked-site-core-functionality* --all
+	mv site-core-functionality/site-core-functionality-loader.php.muonly site-core-functionality-loader.php || exit 1
+	git add site-core-functionality* --all
 	git ci -m "Added site-core-functionality in mu-plugin/" > /dev/null
 	$ECHO "done.";
 fi
