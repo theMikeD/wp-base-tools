@@ -43,7 +43,7 @@ WP_TAG=$(sed -n '3p' ver)
 rm ver
 
 # This is the list of plugins to install when the -p option is used
-plugins=( "bwp-minify" "theme-check" "wp-security-audit-log" "genesis-taxonomy-images" "advanced-custom-fields" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
+plugins=( "query-monitor" "anything-order" "bwp-minify" "theme-check" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
 
 # This is the list of public plugins to install when the -d option is used
 dev_plugins=( "underconstruction" "wordpress-importer" );
