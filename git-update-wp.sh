@@ -26,10 +26,10 @@ if [ $UPDATE_WORDPRESS -eq "1" ] ; then
 	echo "Updating to Wordpress to version  $WP_TAG"
 	sleep 3
 	cd "$WEB_DIR/wordpress"
-	#git pull
 	git checkout master
+	git pull
 	git fetch
 	git fetch --tags
 	git checkout $WP_TAG
-	cd $START_DIR
+	cd "$START_DIR"
 fi
