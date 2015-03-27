@@ -21,15 +21,24 @@
 //  be over-ridden as required.
 
 $md_http = ($_SERVER['HTTPS']) ? 'https://': 'http://';
+$md_server_name = rtrim($_SERVER['SERVER_NAME'],"/");
+$md_document_root = rtrim($_SERVER['DOCUMENT_ROOT'],"/");
 
 // The wordpress install is in its own folder, so we force that setting here
-define('WP_SITEURL', $md_http .rtrim($_SERVER['SERVER_NAME'],"/") . '/wordpress');
-define('WP_HOME',    $md_http . $_SERVER['HTTP_HOST']);
+define('WP_SITEURL', $md_http . $md_server_name . '/wordpress');
+//define('WP_SITEURL', $md_http .rtrim($_SERVER['SERVER_NAME'],"/") . '/wordpress');
+define('WP_HOME',    $md_http . $md_server_name);
+//define('WP_HOME',    $md_http . $_SERVER['HTTP_HOST']);
+
 
 // The wordpress wp-content folder is outside of the git WordPress submodule so
 //     tell WP where it is. These may have to be set manually in some cases
-define('WP_CONTENT_URL', $md_http . rtrim($_SERVER['SERVER_NAME'],"/") . '/wp-content');
-define('WP_CONTENT_DIR', rtrim($_SERVER['DOCUMENT_ROOT'],"/") . '/wp-content');
+define('WP_CONTENT_URL', $md_http . $md_server_name . '/wp-content');
+//define('WP_CONTENT_URL', $md_http . rtrim($_SERVER['SERVER_NAME'],"/") . '/wp-content');
+
+define('WP_CONTENT_DIR', $md_document_root . '/wp-content');
+//define('WP_CONTENT_DIR', rtrim($_SERVER['DOCUMENT_ROOT'],"/") . '/wp-content');
+
 
 // Four stages
 // local = local development on my workstation
