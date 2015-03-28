@@ -24,7 +24,7 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Users/mike/Sites/genesis.2.1.2.zip'
+GENESIS_LOCATION='/Users/mike/Sites/genesis.current.zip'
 
 ADD_CORE_THEME=0;
 ADD_PLUGINS=0;
@@ -43,10 +43,10 @@ WP_TAG=$(sed -n '3p' ver)
 rm ver
 
 # This is the list of plugins to install when the -p option is used
-plugins=( "query-monitor" "anything-order" "bwp-minify" "theme-check" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
+plugins=( "anything-order" "bwp-minify" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "underconstruction" "wordpress-importer" );
+dev_plugins=( "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
 
 while getopts "acdtpgw:" opt; do
 	case $opt in
