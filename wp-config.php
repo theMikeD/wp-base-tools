@@ -14,15 +14,11 @@
  * @package WordPress
  */
 
-// Note that $_SERVER['DOCUMENT_ROOT'] will return a string with a trailing slash on
-//  some systems and not others, so we'll make sure it's gone in all cases where there
-//  is ambiguity by using rtrim.
-// Also note that this is above the loading of the wp-config-*.php files so that these can
-//  be over-ridden as required.
 
 $md_http = ($_SERVER['HTTPS']) ? 'https://': 'http://';
-$md_server_name = rtrim($_SERVER['SERVER_NAME'],"/");
-$md_document_root = rtrim($_SERVER['DOCUMENT_ROOT'],"/");
+$md_server_name = rtrim($_SERVER['HTTP_HOST'],"/");
+$md_document_root = rtrim(dirname(__FILE__),"/");
+
 
 // The wordpress install is in its own folder, so we force that setting here
 define('WP_SITEURL', $md_http . $md_server_name . '/wordpress');
