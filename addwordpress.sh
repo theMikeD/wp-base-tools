@@ -13,6 +13,7 @@
 # 	git
 # 	wget
 # 	dos2unix
+#   wp-cli
 
 # Helper vars
 # http://stackoverflow.com/questions/2924697/how-does-one-output-bold-text-in-bash
@@ -24,12 +25,16 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Users/mike/Sites/genesis.current.zip'
+GENESIS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Themes/Genesis 2.0/genesis.current.zip'
+ACF5_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Advanced Custom Fields/v5/advanced-custom-fields-pro.zip'
+GRAVITYFORMS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Gravity Forms/gravityforms.current.zip'
 
 ADD_CORE_THEME=0;
 ADD_PLUGINS=0;
 ADD_CORE_PLUGIN=0;
 ADD_DEV_PLUGINS=0;
+ADD_DB=0;
+DB_NAME=0;
 START_DIR=`pwd`;
 BASE_DIR="$START_DIR/SITE";
 
@@ -43,12 +48,12 @@ WP_TAG=$(sed -n '3p' ver)
 rm ver
 
 # This is the list of plugins to install when the -p option is used
-plugins=( "anything-order" "bwp-minify" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
+plugins=( "quick-featured-images" "anything-order" "bwp-minify" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
+dev_plugins=( "wp-media-cleaner" "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
 
-while getopts "acdtpgw:" opt; do
+while getopts "acdtpgw:x:" opt; do
 	case $opt in
 		a)	# Shortcut for -g -t -c -d -p
 			ADD_GENESIS=1; # Flag to add genesis. Location must be set in $GENESIS_LOCATION
@@ -75,6 +80,10 @@ while getopts "acdtpgw:" opt; do
 		p)
 			ADD_PLUGINS=1; # Flag to install the list of plugins from $plugins
 			;;
+		x)
+			ADD_DB=1;
+			DB_NAME=$OPTARG; # To check out a different WP version, specificy the git tage here
+			;;
 		\?)
 			$ECHO "Invalid option: $OPTARG" >&2
 			exit 1;
@@ -90,6 +99,9 @@ done
 $ECHO "\n\n${BOLDON}Creating new site with the following options${BOLDOFF}"
 $ECHO "    Installing into $BASE_DIR";
 $ECHO "    Wordpress v ${WP_TAG}";
+if [ $ADD_DB -eq 1 ]; then
+	$ECHO "    Creating a database named ${DB_NAME}"
+fi
 if [ $ADD_GENESIS -eq '1' ]; then
 	$ECHO "    Genesis will be installed into themes/";
 fi
@@ -109,7 +121,20 @@ if [ $ADD_PLUGINS -eq 1 ]; then
 	done
 fi
 $ECHO "\n\n"
-sleep 3;
+#sleep 3;
+
+# src http://jetpackweb.com/blog/2009/07/20/bash-script-to-create-mysql-database-and-user/
+if [ $ADD_DB -eq 1 ]; then
+	$ECHO "\n\n${BOLDON}Make the DB ${BOLDOFF}";
+	MYSQL=`which mysql`
+	Q1="CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
+	Q2="USE ${DB_NAME}; GRANT ALL ON ${DB_NAME} TO 'bloguser'@'localhost' IDENTIFIED BY 'mdixie';"
+	Q3="FLUSH PRIVILEGES;"
+	SQL="${Q1}${Q2}${Q3}"
+	$ECHO "\n\n${BOLDON}${SQL}"
+	$MYSQL -uroot -pmdixie -e "$SQL"
+	$ECHO "done.";
+fi
 
 
 $ECHO "\n\n${BOLDON}Make the install folder [$BASE_DIR] ${BOLDOFF}";
@@ -153,6 +178,20 @@ cd "$BASE_DIR";
 $ECHO "\n\n${BOLDON}Copy but don't add wp-config-local.php file${BOLDOFF}";
 cp "$WPTOOLS/wp-config-local.php" . || exit 1
 $ECHO "done.";
+
+
+# Still in SITE/
+if [ $ADD_DB -eq 1 ]; then
+	$ECHO "\n\n${BOLDON}Adding credentials to wp-config-local.php${BOLDOFF}";
+	mv "wp-config-local.php" "wp-config-local.1.php"
+ 	sed "/dummy.blog/{
+ 		s/dummy.blog/$DB_NAME/
+ 		}" "wp-config-local.1.php" > "wp-config-local.2.php"
+ 	sed "/blogpassword/{
+ 		s/blogpassword/mdixie/
+ 		}" "wp-config-local.2.php" > "wp-config-local.php"
+	rm "wp-config-local.1.php" "wp-config-local.2.php"
+fi;
 
 
 # Still in SITE
@@ -234,9 +273,25 @@ fi
 cd "$BASE_DIR"
 
 
+
 # Still in SITE
 if [ $ADD_PLUGINS -eq 1 ]; then
 	$ECHO "\n\n${BOLDON}Installing Plugins:${BOLDOFF}";
+
+	cd "$BASE_DIR/wp-content/plugins" || exit 1
+	$ECHO "    ACF5 Pro (local source)";
+	#$ECHO "$ACF5_LOCATION";
+	unzip -q "$ACF5_LOCATION" -d . || exit 1
+	git add advanced-custom-fields-pro --all
+	git commit -m "Added ACF5 Pro" > /dev/null
+
+	$ECHO "    Gravity Forms  (local source)";
+	#$ECHO "$GRAVITYFORMS_LOCATION";
+	unzip -q "$GRAVITYFORMS_LOCATION" -d . || exit 1
+	git add gravityforms --all
+	git commit -m "Added Gravity Forms" > /dev/null
+
+
 	cd "$BASE_DIR/wp-content/plugins" || exit 1
 	for plugin in "${plugins[@]}" ; do
 		zip=${plugin}.zip;
@@ -247,6 +302,8 @@ if [ $ADD_PLUGINS -eq 1 ]; then
 		git add $plugin --all > /dev/null
 		git ci -m "Added plugin $plugin" > /dev/null
 	done
+
+
 	$ECHO "done.";
 fi
 cd "$BASE_DIR"
