@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/local/bin/bash
+# Requires v4 of bash
 # Creates a new git-ified WordPress install
 
 # This script will install WordPress into a new folder called SITE, optionally installing:
@@ -52,6 +53,19 @@ plugins=( "quick-featured-images" "anything-order" "bwp-minify" "wp-security-aud
 
 # This is the list of public plugins to install when the -d option is used
 dev_plugins=( "wp-media-cleaner" "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
+
+# This is the list of github items and plugins to be installed when the -d option is used
+typeset -A github_plugins
+github_plugins=( 
+	[wp-find-shared-terms]="https://github.com/jjeaton/wp-find-shared-terms.git"
+	[wp-sync-db]="https://github.com/wp-sync-db/wp-sync-db.git"
+	[github-updater]="https://github.com/afragen/github-updater.git"
+);
+
+# for github_plugin_name in "${!github_plugins[@]}"; do
+# 	$ECHO "$github_plugin_name --> ${github_plugins[$github_plugin_name]}";
+# done
+
 
 while getopts "acdtpgw:x:" opt; do
 	case $opt in
@@ -262,7 +276,7 @@ if [ $ADD_GENESIS -eq '1' ]; then
 	if [ $ADD_CORE_THEME -eq '1' ]; then
 		$ECHO "\n\n${BOLDON}Add the starter theme${BOLDOFF}";
 		cd "$BASE_DIR/wp-content/themes" || exit 1
-		git clone git@personal:themiked/genesis-starter-theme.git _TMP > /dev/null
+		git clone git@personal:themiked/genesis-starter-theme.git _TMP > /dev/null 2>&1
 		mv _TMP/starter starter || exit 1
 		rm -rf _TMP > /dev/null
 		git add starter --all
@@ -315,7 +329,7 @@ if [ $ADD_CORE_PLUGIN -eq '1' ]; then
 	cd "$BASE_DIR" || exit 1
 	mkdir -p wp-content/mu-plugins || exit 1
 	cd wp-content/mu-plugins || exit 1
-	git clone git@personal:themiked/plugin-site-core-functionality.git _TMP > /dev/null
+	git clone git@personal:themiked/plugin-site-core-functionality.git _TMP > /dev/null  2>&1
 	mv _TMP/site-core-functionality . || exit 1
 	rm -rf _TMP > /dev/null
 	mv site-core-functionality/site-core-functionality-loader.php.muonly site-core-functionality-loader.php || exit 1
@@ -328,37 +342,6 @@ cd "$BASE_DIR"
 
 # Still in SITE
 if [ $ADD_DEV_PLUGINS -eq '1' ]; then
-	$ECHO "\n\n${BOLDON}Installing the database transfer plugin from github${BOLDOFF}";
-	cd "$BASE_DIR/wp-content/plugins" || exit 1
-	git clone https://github.com/wp-sync-db/wp-sync-db.git > /dev/null
-	rm -rf wp-sync-db/.git* > /dev/null
-	rm -rf wp-sync-db/.editor* > /dev/null
-	git add wp-sync-db --all
-	git commit -m "Added the DB Sync plugin" > /dev/null
-	cd "$BASE_DIR"
-	$ECHO "done.";
-
-
-	$ECHO "\n\n${BOLDON}Installing the github plugin updater plugin from github${BOLDOFF}";
-	cd "$BASE_DIR/wp-content/plugins" || exit 1
-	git clone https://github.com/afragen/github-updater.git > /dev/null
-	rm -rf github-updater/.git* > /dev/null
-	git add github-updater --all
-	git commit -m "Added the github plugin updater plugin" > /dev/null
-	cd "$BASE_DIR"
-	$ECHO "done.";
-
-
-	$ECHO "\n\n${BOLDON}Installing the debugging plugin${BOLDOFF}";
-	cd "$BASE_DIR/wp-content/plugins" || exit 1
-	git clone git@personal:themiked/plugin-debugging.git _TMP > /dev/null
-	mv _TMP/miked-debugging . || exit 1
-	rm -rf _TMP > /dev/null
-	git add miked-debugging --all
-	git commit -m "Added the debugging plugin" > /dev/null
-	cd "$BASE_DIR"
-	$ECHO "done.";
-
 	cd "$BASE_DIR/wp-content/plugins" || exit 1
 	$ECHO "\n\n${BOLDON}Installing Public Dev Plugins:${BOLDOFF}";
 	for plugin in "${dev_plugins[@]}" ; do
@@ -370,6 +353,34 @@ if [ $ADD_DEV_PLUGINS -eq '1' ]; then
 		git add $plugin --all > /dev/null
 		git ci -m "Added dev plugin $plugin" > /dev/null
 	done
+
+
+	cd "$BASE_DIR/wp-content/plugins" || exit 1
+	$ECHO "\n\n${BOLDON}Installing Github Dev Plugins:${BOLDOFF}";
+	for plugin in "${!github_plugins[@]}" ; do
+		$ECHO "    $plugin";
+		git clone ${github_plugins[$plugin]} > /dev/null 2>&1
+		rm -rf $plugin/.git > /dev/null
+		rm -rf $plugin/.editor* > /dev/null
+		git add $plugin --all
+		git commit -m "Added the github plugin $plugin" > /dev/null
+	done
+	cd "$BASE_DIR"
+	$ECHO "done.";
+
+
+
+	$ECHO "\n\n${BOLDON}Installing my debugging plugin${BOLDOFF}";
+	cd "$BASE_DIR/wp-content/plugins" || exit 1
+	git clone git@personal:themiked/plugin-debugging.git _TMP > /dev/null 2>&1
+	mv _TMP/miked-debugging . || exit 1
+	rm -rf _TMP > /dev/null
+	git add miked-debugging --all
+	git commit -m "Added the debugging plugin" > /dev/null
+	cd "$BASE_DIR"
+	$ECHO "done.";
+
+
 fi
 
 
