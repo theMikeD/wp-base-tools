@@ -44,5 +44,6 @@ sitemap.*
 *.DS_Store
 *[Tt]humbs.db
 *.Trashes
-*~
-config.codekit
+**/~*
+**/config.codekit
+.idea/

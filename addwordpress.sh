@@ -49,7 +49,27 @@ WP_TAG=$(sed -n '3p' ver)
 rm ver
 
 # This is the list of plugins to install when the -p option is used
-plugins=( "quick-featured-images" "anything-order" "bwp-minify" "wp-security-audit-log" "genesis-taxonomy-images" "term-management-tools" "admin-post-navigation" "akismet" "backwpup" "kia-subtitle" "simple-tags" "wordpress-seo" "wpmandrill" "contact-form-7" "genesis-simple-breadcrumbs" "wp-optimize" "remove-xmlrpc-pingback-ping" "sucuri-scanner");
+plugins=( 
+	"quick-featured-images" 
+	"anything-order" 
+	"bwp-minify" 
+	"wp-security-audit-log" 
+	"genesis-taxonomy-images" 
+	"term-management-tools" 
+	"admin-post-navigation" 
+	"akismet" 
+	"backwpup" 
+	"kia-subtitle" 
+	"simple-tags" 
+	"wordpress-seo" 
+	"wpmandrill" 
+	"contact-form-7" 
+	"genesis-simple-breadcrumbs" 
+	"wp-optimize" 
+	"remove-xmlrpc-pingback-ping" 
+	"sucuri-scanner"
+	"advanced-custom-field-repeater-collapser"
+);
 
 # This is the list of public plugins to install when the -d option is used
 dev_plugins=( "wp-media-cleaner" "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
@@ -267,7 +287,7 @@ $ECHO "done.";
 if [ $ADD_GENESIS -eq '1' ]; then
 	$ECHO "\n\n${BOLDON}Add genesis in themes${BOLDOFF}";
 	cd "$BASE_DIR/wp-content/themes" || exit 1
-	unzip $GENESIS_LOCATION -d .
+	unzip -q "$GENESIS_LOCATION" -d .
 	git add genesis --all
 	git commit -m "Added genesis $GENESIS_TAG " > /dev/null
 	$ECHO "done.";
