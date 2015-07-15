@@ -15,24 +15,24 @@
  */
 
 
-$md_http = ($_SERVER['HTTPS']) ? 'https://': 'http://';
-$md_server_name = rtrim($_SERVER['HTTP_HOST'],"/");
-$md_document_root = rtrim(dirname(__FILE__),"/");
+$cnmd_http = ($_SERVER['HTTPS']) ? 'https://': 'http://';
+$cnmd_server_name = rtrim($_SERVER['HTTP_HOST'],"/");
+$cnmd_document_root = rtrim(dirname(__FILE__),"/");
 
 
 // The wordpress install is in its own folder, so we force that setting here
-define('WP_SITEURL', $md_http . $md_server_name . '/wordpress');
-//define('WP_SITEURL', $md_http .rtrim($_SERVER['SERVER_NAME'],"/") . '/wordpress');
-define('WP_HOME',    $md_http . $md_server_name);
-//define('WP_HOME',    $md_http . $_SERVER['HTTP_HOST']);
+define('WP_SITEURL', $cnmd_http . $cnmd_server_name . '/wordpress');
+//define('WP_SITEURL', $cnmd_http .rtrim($_SERVER['SERVER_NAME'],"/") . '/wordpress');
+define('WP_HOME',    $cnmd_http . $cnmd_server_name);
+//define('WP_HOME',    $cnmd_http . $_SERVER['HTTP_HOST']);
 
 
 // The wordpress wp-content folder is outside of the git WordPress submodule so
 //     tell WP where it is. These may have to be set manually in some cases
-define('WP_CONTENT_URL', $md_http . $md_server_name . '/wp-content');
-//define('WP_CONTENT_URL', $md_http . rtrim($_SERVER['SERVER_NAME'],"/") . '/wp-content');
+define('WP_CONTENT_URL', $cnmd_http . $cnmd_server_name . '/wp-content');
+//define('WP_CONTENT_URL', $cnmd_http . rtrim($_SERVER['SERVER_NAME'],"/") . '/wp-content');
 
-define('WP_CONTENT_DIR', $md_document_root . '/wp-content');
+define('WP_CONTENT_DIR', $cnmd_document_root . '/wp-content');
 //define('WP_CONTENT_DIR', rtrim($_SERVER['DOCUMENT_ROOT'],"/") . '/wp-content');
 
 
@@ -45,14 +45,14 @@ define('WP_CONTENT_DIR', $md_document_root . '/wp-content');
 //  of git are purged leaving a normal site. This is all done manually btw.
 
 if ( file_exists( dirname( __FILE__ ) . '/wp-config-local.php' ) ) {
-  	define( 'MD_LOCAL_DEV', true );
+  	define( 'CNMD_LOCAL_DEV', true );
   	include( dirname( __FILE__ ) . '/wp-config-local.php' );
 	
 	// I don't need cron running, so turn it off
 	define( 'DISABLE_WP_CRON', true );
 
 } else if ( file_exists( dirname( __FILE__ ) . '/wp-config-staging.php' ) ) {
-	define( 'MD_STAGING_DEV', true );
+	define( 'CNMD_STAGING_DEV', true );
 	include( dirname( __FILE__ ) . '/wp-config-staging.php' );
 
 	// Disable all core updates, as they are handled on local machine and done via git
@@ -64,7 +64,7 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-config-local.php' ) ) {
 	define( 'DISABLE_WP_CRON', true );
 
 } else if ( file_exists( dirname( __FILE__ ) . '/wp-config-live.php' ) ) {
-	define( 'MD_LIVE', true );
+	define( 'CNMD_LIVE', true );
   	include( dirname( __FILE__ ) . '/wp-config-live.php' );
 
 	//Disable all core updates, as they are handled on local machine and done via git
@@ -97,7 +97,7 @@ define('DB_COLLATE', '');
  */
 // NOTE: This is a placeholder replaced with new salts via the site creation script
 //  It will throw an error if not done correctly. This is by design.
-__SALTS__
+//__SALTS__
 
 /**
  * WordPress Localized Language, defaults to English.

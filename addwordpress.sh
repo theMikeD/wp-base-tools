@@ -232,8 +232,8 @@ fi;
 $ECHO "\n\n${BOLDON}Copy and add wp-config.php file and update the security salts${BOLDOFF}";
 wget --quiet https://api.wordpress.org/secret-key/1.1/salt
 dos2unix -q salt || exit 1
-sed '/__SALTS__/{
-	s/__SALTS__//
+sed '/\/\/__SALTS__/{
+	s/\/\/__SALTS__//
 	r salt
 	}' "$WPTOOLS/wp-config.php" > wp-config.php
 rm salt
