@@ -69,6 +69,10 @@ plugins=(
 	"remove-xmlrpc-pingback-ping" 
 	"sucuri-scanner"
 	"advanced-custom-field-repeater-collapser"
+	"regenerate-thumbnails"
+	"page-template-dashboard"
+	"password-protected"
+	"advanced-custom-field-repeater-collapser"
 );
 
 # This is the list of public plugins to install when the -d option is used
@@ -116,7 +120,7 @@ while getopts "acdtpgw:x:" opt; do
 			;;
 		x)
 			ADD_DB=1;
-			DB_NAME=$OPTARG; # To check out a different WP version, specificy the git tage here
+			DB_NAME=$OPTARG; # The name of the DB
 			;;
 		\?)
 			$ECHO "Invalid option: $OPTARG" >&2
@@ -165,11 +169,10 @@ if [ $ADD_DB -eq 1 ]; then
 	Q2="USE ${DB_NAME}; GRANT ALL ON ${DB_NAME} TO 'bloguser'@'localhost' IDENTIFIED BY 'mdixie';"
 	Q3="FLUSH PRIVILEGES;"
 	SQL="${Q1}${Q2}${Q3}"
-	$ECHO "\n\n${BOLDON}${SQL}"
+	$ECHO "\n\n${SQL}"
 	$MYSQL -uroot -pmdixie -e "$SQL"
 	$ECHO "done.";
 fi
-
 
 $ECHO "\n\n${BOLDON}Make the install folder [$BASE_DIR] ${BOLDOFF}";
 mkdir -p "$BASE_DIR"
