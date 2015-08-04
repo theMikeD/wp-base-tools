@@ -38,3 +38,10 @@ deny from all
 order deny,allow
 deny from all
 </Files>
+
+# https://perishablepress.com/5g-blacklist-2013/
+# 5G BLACKLIST/FIREWALL (2013)
+# @ https://perishablepress.com/5g-blacklist-2013/
+# Note: The 5G Blacklist from PerishablePress actually disables some functionality in WordPress core,
+# specifically the image editing tools by blocking '%22', '%3' and 'and' from the query string. I am
+# pretty sure the site in question has the 5G blacklist enabled anyway.
