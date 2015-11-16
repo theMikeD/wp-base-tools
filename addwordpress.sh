@@ -50,34 +50,35 @@ rm ver
 
 # This is the list of plugins to install when the -p option is used
 plugins=( 
-	"quick-featured-images" 
-	"anything-order" 
-	"bwp-minify" 
-	"wp-security-audit-log" 
-	"genesis-taxonomy-images" 
-	"term-management-tools" 
 	"admin-post-navigation" 
+	"advanced-custom-field-repeater-collapser"
+	"ajax-thumbnail-rebuild"
 	"akismet" 
+	"anything-order" 
 	"backwpup" 
+	"bwp-minify" 
+	"contact-form-7" 
+	"duplicate-menu" 
+	"genesis-easy-columns"
+	"genesis-simple-breadcrumbs" 
+	"genesis-taxonomy-images" 
 	"kia-subtitle" 
+	"page-template-dashboard"
+	"quick-featured-images" 
+	"remove-xmlrpc-pingback-ping" 
 	"simple-tags" 
+	"sucuri-scanner"
+	"term-management-tools" 
+	"artiss-transient-cleaner"
+	"wp-security-audit-log" 
 	"wordpress-seo" 
 	"wpmandrill" 
-	"contact-form-7" 
-	"genesis-simple-breadcrumbs" 
 	"wp-optimize" 
-	"remove-xmlrpc-pingback-ping" 
-	"sucuri-scanner"
-	"advanced-custom-field-repeater-collapser"
-	"regenerate-thumbnails"
-	"page-template-dashboard"
-	"password-protected"
-	"advanced-custom-field-repeater-collapser"
 );
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "wp-media-cleaner" "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
-
+dev_plugins=( "theme-check" "query-monitor" "password-protected" "wordpress-importer" );
+# "wp-media-cleaner"
 # This is the list of github items and plugins to be installed when the -d option is used
 typeset -A github_plugins
 github_plugins=( 
@@ -396,9 +397,9 @@ if [ $ADD_DEV_PLUGINS -eq '1' ]; then
 	$ECHO "\n\n${BOLDON}Installing my debugging plugin${BOLDOFF}";
 	cd "$BASE_DIR/wp-content/plugins" || exit 1
 	git clone git@personal:themiked/plugin-debugging.git _TMP > /dev/null 2>&1
-	mv _TMP/miked-debugging . || exit 1
+	mv _TMP/cnmd-debugging . || exit 1
 	rm -rf _TMP > /dev/null
-	git add miked-debugging --all
+	git add cnmd-debugging --all
 	git commit -m "Added the debugging plugin" > /dev/null
 	cd "$BASE_DIR"
 	$ECHO "done.";
