@@ -73,7 +73,10 @@ plugins=(
 	"wp-security-audit-log" 
 	"wordpress-seo" 
 	"wpmandrill" 
-	"wp-optimize" 
+	"wp-optimize"
+	"simple-taxonomy-ordering"
+	"yoast-comment-hacks"
+	"genesis-404-page" 
 );
 
 # This is the list of public plugins to install when the -d option is used
