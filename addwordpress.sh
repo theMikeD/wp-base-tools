@@ -26,7 +26,7 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Themes/Genesis 2.0/genesis.current.zip'
+GENESIS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Themes/Genesis/Studio Press/genesis.current.zip'
 ACF5_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Advanced Custom Fields/v5/advanced-custom-fields-pro.zip'
 GRAVITYFORMS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Gravity Forms/gravityforms.current.zip'
 
@@ -55,32 +55,32 @@ plugins=(
 	"ajax-thumbnail-rebuild"
 	"akismet" 
 	"anything-order" 
+	"artiss-transient-cleaner"
 	"backwpup" 
 	"bwp-minify" 
 	"contact-form-7" 
 	"duplicate-menu" 
+	"genesis-404-page"
 	"genesis-easy-columns"
 	"genesis-simple-breadcrumbs" 
 	"genesis-taxonomy-images" 
-	"kia-subtitle" 
+	"intuitive-custom-post-order"
 	"page-template-dashboard"
-	"quick-featured-images" 
+	"quick-featured-images"
+	"redirection"
 	"remove-xmlrpc-pingback-ping" 
 	"simple-tags" 
+	"simple-taxonomy-ordering"
 	"sucuri-scanner"
 	"term-management-tools" 
-	"artiss-transient-cleaner"
 	"wp-security-audit-log" 
 	"wordpress-seo" 
-	"wpmandrill" 
 	"wp-optimize"
-	"simple-taxonomy-ordering"
 	"yoast-comment-hacks"
-	"genesis-404-page" 
 );
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "theme-check" "query-monitor" "password-protected" "wordpress-importer" );
+dev_plugins=( "theme-check" "query-monitor" "password-protected" "wordpress-importer" "busted" );
 # "wp-media-cleaner"
 # This is the list of github items and plugins to be installed when the -d option is used
 typeset -A github_plugins
@@ -232,6 +232,10 @@ if [ $ADD_DB -eq 1 ]; then
  		s/blogpassword/mdixie/
  		}" "wp-config-local.2.php" > "wp-config-local.php"
 	rm "wp-config-local.1.php" "wp-config-local.2.php"
+    
+    echo "Enter mysql root password to create the empty database";
+    echo "mysql -u root -e \"create database $DB_NAME\" -p";
+    mysql -u root -e "create database $DB_NAME" -p
 fi;
 
 
@@ -411,7 +415,12 @@ if [ $ADD_DEV_PLUGINS -eq '1' ]; then
 fi
 
 
-$ECHO "\n\n${BOLDON}Site setup complete${BOLDOFF}\n";
-$ECHO "${BOLDON}Don't forget to create the DB and update wp-config-local.php${BOLDOFF}";
+# Set up site via wp-cli 
+$ECHO "\n\n${BOLDON}Here are the next steps to get this up and running quickly.${BOLDOFF}\n";
+$ECHO "\n\n${BOLDON}First set up the site${BOLDOFF}\n";
+$ECHO 'wp core install --title="Starter Site" --admin_user="themiked" --admin_password="banana" --admin_email="info@codenamemiked.com" --url="<SITE URL>" \n\n'
+
+$ECHO "\n\n${BOLDON}Then set up the site by running the wp-cli setup script${BOLDOFF}\n";
+
 exit;
 
