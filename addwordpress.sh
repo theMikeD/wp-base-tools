@@ -26,9 +26,9 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Themes/Genesis/Studio Press/genesis.current.zip'
-ACF5_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Advanced Custom Fields/v5/advanced-custom-fields-pro.zip'
-GRAVITYFORMS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Gravity Forms/gravityforms.current.zip'
+GENESIS_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/genesis.zip'
+ACF5_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/advanced-custom-fields-pro.zip'
+GRAVITYFORMS_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/gravityforms.zip'
 
 ADD_CORE_THEME=0;
 ADD_PLUGINS=0;
@@ -71,6 +71,7 @@ plugins=(
 	"remove-xmlrpc-pingback-ping" 
 	"simple-tags" 
 	"simple-taxonomy-ordering"
+	"simple-page-ordering"
 	"sucuri-scanner"
 	"term-management-tools" 
 	"wp-security-audit-log" 
@@ -80,7 +81,16 @@ plugins=(
 );
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "theme-check" "query-monitor" "password-protected" "wordpress-importer" "busted" );
+dev_plugins=( 
+	"wp-crontrol"
+	"busted" 
+	"monster-widget"
+	"password-protected" 
+	"query-monitor" 
+	"simply-show-hooks"
+	"theme-check" 
+	"wordpress-importer" 
+);
 # "wp-media-cleaner"
 # This is the list of github items and plugins to be installed when the -d option is used
 typeset -A github_plugins
@@ -289,6 +299,7 @@ rm -rf wp-content/themes/twentyeleven || exit 1
 rm -rf wp-content/themes/twentytwelve || exit 1
 rm -rf wp-content/themes/twentythirteen || exit 1
 rm -rf wp-content/themes/twentyfourteen || exit 1
+rm -rf wp-content/themes/twentyfifteen || exit 1
 git add . --all
 git commit -m "Cleaned out obsolete themes and plugins from wp-content/" > /dev/null
 $ECHO "done.";
