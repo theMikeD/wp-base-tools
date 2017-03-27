@@ -47,3 +47,4 @@ sitemap.*
 **/~*
 **/config.codekit
 .idea/
+**/config.codekit3
