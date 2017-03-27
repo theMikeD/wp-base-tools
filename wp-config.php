@@ -45,14 +45,17 @@ define('WP_CONTENT_DIR', $cnmd_document_root . '/wp-content');
 //  of git are purged leaving a normal site. This is all done manually btw.
 
 if ( file_exists( dirname( __FILE__ ) . '/wp-config-local.php' ) ) {
-  	define( 'CNMD_LOCAL_DEV', true );
+  	define( 'CNMD_DEV_STATUS', 'local' );
   	include( dirname( __FILE__ ) . '/wp-config-local.php' );
 	
 	// I don't need cron running, so turn it off
 	define( 'DISABLE_WP_CRON', true );
 
+	// Enable all debugging
+  	define('WP_DEBUG', false);
+
 } else if ( file_exists( dirname( __FILE__ ) . '/wp-config-staging.php' ) ) {
-	define( 'CNMD_STAGING_DEV', true );
+  	define( 'CNMD_DEV_STATUS', 'staging' );
 	include( dirname( __FILE__ ) . '/wp-config-staging.php' );
 
 	// Disable all core updates, as they are handled on local machine and done via git
@@ -64,7 +67,7 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-config-local.php' ) ) {
 	define( 'DISABLE_WP_CRON', true );
 
 } else if ( file_exists( dirname( __FILE__ ) . '/wp-config-live.php' ) ) {
-	define( 'CNMD_LIVE', true );
+  	define( 'CNMD_DEV_STATUS', 'live' );
   	include( dirname( __FILE__ ) . '/wp-config-live.php' );
 
 	//Disable all core updates, as they are handled on local machine and done via git
