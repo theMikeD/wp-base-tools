@@ -1,7 +1,7 @@
 # Git-ified Development WordPress Installer
 This is a system to create a git-ified WordPress installation. The end result is that the entire WordPress installation is in git, with the following notes: 
 - WordPress itself is a submodule (see Note (2));
-- the WordPress database credentials;
+- the config file is excluded but the DB creds are not;
 - anything in the root folder that is not related to this install;
 - anything in wp-content that is not 
   - themes/ 
@@ -39,11 +39,11 @@ This is a system to create a git-ified WordPress installation. The end result is
              └── twentyfourteen/
              
 
-(1) This us a helper to update the WordPress submodule. View the source to see what it does, it's pretty straightforward.
+(1) This is a helper to update the WordPress submodule. View the source to see what it does, it's pretty straightforward.
 
 (2) WordPress is a submodule. This means that only a reference to WordPress is in the site git repo, not the WP code itself. By using a submodule, you can test with basically any version of WordPress by simply checking out the appropriate version using git tags. Defaults to what is current. The source for it is the official release, git-ified for just this purpose, found [here](https://github.com/WordPress/WordPress)
 
-(3) wp-content/ is moved out from under wordpress/ because a) Wordpress itself is a module that we want to treat as read-only and b) we want to keep the plugins and themes in our repo.
+(3) wp-content/ is moved out from under wordpress/ because a) Wordpress itself is a module that we want to treat as read-only and b) we want to keep the plugins and themes in our repo and doing this allows that.
 
 (4) This file contains the DB creds, prefix and other site-specific settings. Excluded from the repo.
 
