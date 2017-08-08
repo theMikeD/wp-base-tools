@@ -1,19 +1,4 @@
 <?php
-/**
- * The base configurations of the WordPress.
- *
- * This file has the following configurations: MySQL settings, Table Prefix,
- * Secret Keys, WordPress Language, and ABSPATH. You can find more information
- * by visiting {@link http://codex.wordpress.org/Editing_wp-config.php Editing
- * wp-config.php} Codex page. You can get the MySQL settings from your web host.
- *
- * This file is used by the wp-config.php creation script during the
- * installation. You don't have to use the web site, you can just copy this file
- * to "wp-config.php" and fill in the values.
- *
- * @package WordPress
- */
-
 
 $cnmd_http = ($_SERVER['HTTPS']) ? 'https://': 'http://';
 $cnmd_server_name = rtrim($_SERVER['HTTP_HOST'],"/");
@@ -22,19 +7,12 @@ $cnmd_document_root = rtrim(dirname(__FILE__),"/");
 
 // The wordpress install is in its own folder, so we force that setting here
 define('WP_SITEURL', $cnmd_http . $cnmd_server_name . '/wordpress');
-//define('WP_SITEURL', $cnmd_http .rtrim($_SERVER['SERVER_NAME'],"/") . '/wordpress');
 define('WP_HOME',    $cnmd_http . $cnmd_server_name);
-//define('WP_HOME',    $cnmd_http . $_SERVER['HTTP_HOST']);
-
 
 // The wordpress wp-content folder is outside of the git WordPress submodule so
 //     tell WP where it is. These may have to be set manually in some cases
 define('WP_CONTENT_URL', $cnmd_http . $cnmd_server_name . '/wp-content');
-//define('WP_CONTENT_URL', $cnmd_http . rtrim($_SERVER['SERVER_NAME'],"/") . '/wp-content');
-
 define('WP_CONTENT_DIR', $cnmd_document_root . '/wp-content');
-//define('WP_CONTENT_DIR', rtrim($_SERVER['DOCUMENT_ROOT'],"/") . '/wp-content');
-
 
 // Four stages
 // local = local development on my workstation
@@ -54,17 +32,22 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-config-local.php' ) ) {
 	// Enable all debugging
   	define('WP_DEBUG', false);
 
-} else if ( file_exists( dirname( __FILE__ ) . '/wp-config-staging.php' ) ) {
-  	define( 'CNMD_DEV_STATUS', 'staging' );
-	include( dirname( __FILE__ ) . '/wp-config-staging.php' );
-
 	// Disable all core updates, as they are handled on local machine and done via git
  	define( 'WP_AUTO_UPDATE_CORE', false );
 	define( 'DISALLOW_FILE_MODS', true );
 	define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
+} else if ( file_exists( dirname( __FILE__ ) . '/wp-config-staging.php' ) ) {
+  	define( 'CNMD_DEV_STATUS', 'staging' );
+	include( dirname( __FILE__ ) . '/wp-config-staging.php' );
+
 	// I Handle cron via system cron, so disable wp_cron
 	define( 'DISABLE_WP_CRON', true );
+
+	// Disable all core updates, as they are handled on local machine and done via git
+ 	define( 'WP_AUTO_UPDATE_CORE', false );
+	define( 'DISALLOW_FILE_MODS', true );
+	define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
 } else if ( file_exists( dirname( __FILE__ ) . '/wp-config-live.php' ) ) {
   	define( 'CNMD_DEV_STATUS', 'live' );
