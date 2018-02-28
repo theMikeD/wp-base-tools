@@ -14,8 +14,13 @@ wp plugin activate wp-sync-db
 wp plugin activate page-template-dashboard
 
 # delete the default posts pages and comments
-wp post delete 1
-wp post delete 2
+wp plugin delete akismet hello;
+ wp theme activate twentytwelve;
+ wp theme delete twentyfourteen twentythirteen;
+ wp post delete $(wp post list --post_type='post' --format=ids);
+ wp post delete $(wp post list --post_type='page' --format=ids);
+ wp widget delete $(wp widget list sidebar-1 --format=ids);
+ wp option set default_comment_status closed;
 wp comment delete 1
 
 # inject the font testing page
