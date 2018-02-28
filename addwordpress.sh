@@ -26,9 +26,10 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/genesis.zip'
-ACF5_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/advanced-custom-fields-pro.zip'
-GRAVITYFORMS_LOCATION='/Users/mike/Dropbox/Apps/PHPStorm Library/gravityforms.zip'
+GENESIS_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/genesis.zip'
+ACF5_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/advanced-custom-fields-pro.zip'
+GRAVITYFORMS_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/gravityforms.zip'
+ROYALSLIDER_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/new-royalslider.zip'
 
 ADD_CORE_THEME=0;
 ADD_PLUGINS=0;
@@ -51,7 +52,8 @@ rm ver
 # This is the list of plugins to install when the -p option is used
 plugins=( 
 	"admin-post-navigation" 
-	"advanced-custom-field-repeater-collapser"
+	"acf-gravityforms-add-on"
+	"add-custom-post-types-archive-to-nav-menus"
 	"ajax-thumbnail-rebuild"
 	"akismet" 
 	"anything-order" 
@@ -74,6 +76,7 @@ plugins=(
 	"simple-page-ordering"
 	"sucuri-scanner"
 	"term-management-tools" 
+	"varnish-http-purge"
 	"wp-security-audit-log" 
 	"wordpress-seo" 
 	"wp-optimize"
@@ -95,10 +98,10 @@ dev_plugins=(
 # This is the list of github items and plugins to be installed when the -d option is used
 typeset -A github_plugins
 github_plugins=( 
-	[wp-find-shared-terms]="https://github.com/jjeaton/wp-find-shared-terms.git"
 	[wp-sync-db]="https://github.com/wp-sync-db/wp-sync-db.git"
-	[github-updater]="https://github.com/afragen/github-updater.git"
 );
+# 	[wp-find-shared-terms]="https://github.com/jjeaton/wp-find-shared-terms.git"
+# 	[github-updater]="https://github.com/afragen/github-updater.git"
 
 # for github_plugin_name in "${!github_plugins[@]}"; do
 # 	$ECHO "$github_plugin_name --> ${github_plugins[$github_plugin_name]}";
@@ -147,6 +150,12 @@ while getopts "acdtpgw:x:" opt; do
 	esac
 done
 
+if [ -e $BASE_DIR ]; then
+	$ECHO "${BASE_DIR} already exists. Exiting.\n";
+	exit; 
+fi
+
+
 
 $ECHO "\n\n${BOLDON}Creating new site with the following options${BOLDOFF}"
 $ECHO "    Installing into $BASE_DIR";
@@ -183,8 +192,9 @@ if [ $ADD_DB -eq 1 ]; then
 	Q2="USE ${DB_NAME}; GRANT ALL ON ${DB_NAME} TO 'bloguser'@'localhost' IDENTIFIED BY 'mdixie';"
 	Q3="FLUSH PRIVILEGES;"
 	SQL="${Q1}${Q2}${Q3}"
-	$ECHO "\n\n${SQL}"
-	$MYSQL -uroot -pmdixie -e "$SQL"
+	$ECHO "\n\n$MYSQL -u root -e '${SQL}' -p"
+    echo "Enter mysql root password to create the empty database";
+	$MYSQL -u root -e "$SQL" -p
 	$ECHO "done.";
 fi
 
@@ -242,10 +252,6 @@ if [ $ADD_DB -eq 1 ]; then
  		s/blogpassword/mdixie/
  		}" "wp-config-local.2.php" > "wp-config-local.php"
 	rm "wp-config-local.1.php" "wp-config-local.2.php"
-    
-    echo "Enter mysql root password to create the empty database";
-    echo "mysql -u root -e \"create database $DB_NAME\" -p";
-    mysql -u root -e "create database $DB_NAME" -p
 fi;
 
 
@@ -346,6 +352,13 @@ if [ $ADD_PLUGINS -eq 1 ]; then
 	unzip -q "$GRAVITYFORMS_LOCATION" -d . || exit 1
 	git add gravityforms --all
 	git commit -m "Added Gravity Forms" > /dev/null
+
+	$ECHO "    RoyalSlider  (local source)";
+	#$ECHO "$GRAVITYFORMS_LOCATION";
+	unzip -q "$ROYALSLIDER_LOCATION" -d . || exit 1
+	git add new-royalslider --all
+	git commit -m "Added Royal Slider" > /dev/null
+
 
 
 	cd "$BASE_DIR/wp-content/plugins" || exit 1
