@@ -26,9 +26,10 @@ ECHO="echo -e"
 #  as downloaded from StudioPress. 
 ADD_GENESIS=0;
 GENESIS_TAG='v2.1.2';
-GENESIS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Themes/Genesis 2.0/genesis.current.zip'
-ACF5_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Advanced Custom Fields/v5/advanced-custom-fields-pro.zip'
-GRAVITYFORMS_LOCATION='/Volumes/Misc/Business Related Files/Web Development/Plugins/Gravity Forms/gravityforms.current.zip'
+GENESIS_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/genesis.zip'
+ACF5_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/advanced-custom-fields-pro.zip'
+GRAVITYFORMS_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/gravityforms.zip'
+ROYALSLIDER_LOCATION='/Users/mike/Dropbox/Apps/New Install Library/new-royalslider.zip'
 
 ADD_CORE_THEME=0;
 ADD_PLUGINS=0;
@@ -50,38 +51,56 @@ rm ver
 
 # This is the list of plugins to install when the -p option is used
 plugins=( 
-	"quick-featured-images" 
-	"anything-order" 
-	"bwp-minify" 
-	"wp-security-audit-log" 
-	"genesis-taxonomy-images" 
-	"term-management-tools" 
 	"admin-post-navigation" 
+	"acf-gravityforms-add-on"
+	"add-custom-post-types-archive-to-nav-menus"
+	"ajax-thumbnail-rebuild"
 	"akismet" 
+	"anything-order" 
+	"artiss-transient-cleaner"
 	"backwpup" 
-	"kia-subtitle" 
-	"simple-tags" 
-	"wordpress-seo" 
-	"wpmandrill" 
+	"bwp-minify" 
 	"contact-form-7" 
+	"duplicate-menu" 
+	"genesis-404-page"
+	"genesis-easy-columns"
 	"genesis-simple-breadcrumbs" 
-	"wp-optimize" 
+	"genesis-taxonomy-images" 
+	"intuitive-custom-post-order"
+	"page-template-dashboard"
+	"quick-featured-images"
+	"redirection"
 	"remove-xmlrpc-pingback-ping" 
+	"simple-tags" 
+	"simple-taxonomy-ordering"
+	"simple-page-ordering"
 	"sucuri-scanner"
-	"advanced-custom-field-repeater-collapser"
+	"term-management-tools" 
+	"varnish-http-purge"
+	"wp-security-audit-log" 
+	"wordpress-seo" 
+	"wp-optimize"
+	"yoast-comment-hacks"
 );
 
 # This is the list of public plugins to install when the -d option is used
-dev_plugins=( "wp-media-cleaner" "theme-check" "query-monitor" "underconstruction" "wordpress-importer" );
+dev_plugins=( 
+	"wp-crontrol"
+	"busted" 
+	"monster-widget"
+	"password-protected" 
+	"query-monitor" 
+	"simply-show-hooks"
+	"theme-check" 
+	"wordpress-importer" 
+);
 
+# "wp-media-cleaner"
 # This is the list of github items and plugins to be installed when the -d option is used
 typeset -A github_plugins
 github_plugins=( 
-	[wp-find-shared-terms]="https://github.com/jjeaton/wp-find-shared-terms.git"
 	[wp-sync-db]="https://github.com/wp-sync-db/wp-sync-db.git"
-	[github-updater]="https://github.com/afragen/github-updater.git"
 );
-
 # for github_plugin_name in "${!github_plugins[@]}"; do
 # 	$ECHO "$github_plugin_name --> ${github_plugins[$github_plugin_name]}";
 # done
@@ -116,7 +135,7 @@ while getopts "acdtpgw:x:" opt; do
 			;;
 		x)
 			ADD_DB=1;
-			DB_NAME=$OPTARG; # To check out a different WP version, specificy the git tage here
+			DB_NAME=$OPTARG; # The name of the DB
 			;;
 		\?)
 			$ECHO "Invalid option: $OPTARG" >&2
@@ -128,6 +147,11 @@ while getopts "acdtpgw:x:" opt; do
 			;;
 	esac
 done
+
+if [ -e $BASE_DIR ]; then
+	$ECHO "${BASE_DIR} already exists. Exiting.\n";
+	exit; 
+fi
 
 
 $ECHO "\n\n${BOLDON}Creating new site with the following options${BOLDOFF}"
@@ -165,8 +189,9 @@ if [ $ADD_DB -eq 1 ]; then
 	Q2="USE ${DB_NAME}; GRANT ALL ON ${DB_NAME} TO 'bloguser'@'localhost' IDENTIFIED BY 'mdixie';"
 	Q3="FLUSH PRIVILEGES;"
 	SQL="${Q1}${Q2}${Q3}"
-	$ECHO "\n\n${BOLDON}${SQL}"
-	$MYSQL -uroot -pmdixie -e "$SQL"
+	$ECHO "\n\n$MYSQL -u root -e '${SQL}' -p"
+    echo "Enter mysql root password to create the empty database";
+	$MYSQL -u root -e "$SQL" -p
 	$ECHO "done.";
 fi
 
