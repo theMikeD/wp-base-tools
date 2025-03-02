@@ -306,6 +306,12 @@ rm -rf wp-content/themes/twentytwelve || exit 1
 rm -rf wp-content/themes/twentythirteen || exit 1
 rm -rf wp-content/themes/twentyfourteen || exit 1
 rm -rf wp-content/themes/twentyfifteen || exit 1
+rm -rf wp-content/themes/twentysisteen || exit 1
+rm -rf wp-content/themes/twentyseventeen || exit 1
+rm -rf wp-content/themes/twentynineteen || exit 1
+rm -rf wp-content/themes/twentytwenty || exit 1
+rm -rf wp-content/themes/twentytwentyone || exit 1
+rm -rf wp-content/themes/twentytwentytwo || exit 1
 git add . --all
 git commit -m "Cleaned out obsolete themes and plugins from wp-content/" > /dev/null
 $ECHO "done.";
